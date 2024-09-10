@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "xignore",
+  "version": "1.0",
+  "description": "Mute desired words on X",
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "storage",
+    "https://twitter.com/*",
+    "https://x.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://twitter.com/*",
+        "https://x.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

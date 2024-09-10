@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>xignore</title>
+  <style>
+    body {
+      width: 300px;
+      padding: 10px;
+    }
+
+    #wordList {
+      margin-top: 10px;
+    }
+
+    .word-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>xignore - Muted Words</h2>
+  <input type="text" id="newWord" placeholder="Enter a word to mute">
+  <button id="addWord">+</button>
+  <div id="wordList"></div>
+  <script src="popup.js"></script>
+</body>
+
+</html>
