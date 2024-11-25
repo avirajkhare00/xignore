@@ -1,14 +1,17 @@
 let mutedWords = [];
 
-function loadMutedWords() {
-  chrome.storage.sync.get(['mutedWords'], function (result) {
+function loadSettings() {
+  chrome.storage.sync.get(['mutedWords', 'hideImages'], function(result) {
     mutedWords = result.mutedWords || [];
     updateWordList();
+    
+    // Set the toggle state
+    document.getElementById('hideImages').checked = result.hideImages || false;
   });
 }
 
 function saveMutedWords() {
-  chrome.storage.sync.set({ mutedWords: mutedWords }, function () {
+  chrome.storage.sync.set({mutedWords: mutedWords}, function() {
     console.log('Muted words saved');
   });
 }
@@ -20,21 +23,21 @@ function updateWordList() {
     const wordItem = document.createElement('div');
     wordItem.className = 'word-item';
     wordItem.textContent = word;
-
+    
     const removeButton = document.createElement('button');
     removeButton.textContent = 'Remove';
-    removeButton.onclick = function () {
+    removeButton.onclick = function() {
       mutedWords.splice(index, 1);
       saveMutedWords();
       updateWordList();
     };
-
+    
     wordItem.appendChild(removeButton);
     wordList.appendChild(wordItem);
   });
 }
 
-document.getElementById('addWord').addEventListener('click', function () {
+document.getElementById('addWord').addEventListener('click', function() {
   const newWord = document.getElementById('newWord').value.trim();
   if (newWord && !mutedWords.includes(newWord)) {
     mutedWords.push(newWord);
@@ -44,4 +47,11 @@ document.getElementById('addWord').addEventListener('click', function () {
   }
 });
 
-document.addEventListener('DOMContentLoaded', loadMutedWords);
+// Add event listener for the hide images toggle
+document.getElementById('hideImages').addEventListener('change', function(e) {
+  chrome.storage.sync.set({hideImages: e.target.checked}, function() {
+    console.log('Hide images setting saved:', e.target.checked);
+  });
+});
+
+document.addEventListener('DOMContentLoaded', loadSettings);
